@@ -1,16 +1,18 @@
 package com.codeshaw.tracker.service.impl;
 
-import com.codeshaw.tracker.domain.TestObject;
+import com.codeshaw.tracker.dto.spot.SpotResponse;
 import com.codeshaw.tracker.repository.SharedPageRepository;
 import com.codeshaw.tracker.service.SpotScraperService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,15 +35,35 @@ public class SpotScraperServiceImpl implements SpotScraperService {
     public void scrapeSpotService() {
         LOG.info("Scraping SPOT service: {}", LocalDateTime.now().toString());
 
-        List<TestObject> spotResponses = sharedPageRepository.findAll().stream()
+        List<SpotResponse> spotResponses = sharedPageRepository.findAll().stream()
                 .map(sharedPage -> fetchFeedWithId(sharedPage.getSharedPageFeedId()))
                 .collect(Collectors.toList());
 
         spotResponses.forEach(currentResponse -> LOG.debug("Found: {}", currentResponse));
     }
 
-    private TestObject fetchFeedWithId(String sharedPageFeedId) {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject("http://gturnquist-quoters.cfapps.io/api/random", TestObject.class);
+    /**
+     * Performs the REST request that gets the SPOT response and turns it into s {@link SpotResponse} instance
+     * @param sharedPageFeedId The shared feed ID
+     * @return The SPOT messages as DTO
+     */
+//    private SpotResponse fetchFeedWithId(String sharedPageFeedId) {
+//        return new RestTemplate().getForObject(String.format(API_URL, sharedPageFeedId), SpotResponse.class);
+//    }
+
+    /**
+     * Crap test method for the file system.
+     * @param sharedPageFeedId
+     * @return
+     */
+    @Autowired private ObjectMapper objectMapper;
+    private SpotResponse fetchFeedWithId(String sharedPageFeedId) {
+        try {
+            return objectMapper.readValue(new URL("classpath:response.json"), SpotResponse.class);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
+
+
 }

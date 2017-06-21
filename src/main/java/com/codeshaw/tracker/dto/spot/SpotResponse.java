@@ -1,17 +1,22 @@
 package com.codeshaw.tracker.dto.spot;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SpotResponse {
 
-  private FeedMessageResponse feedMessageResponse;
+    @JsonProperty("response")
+    private Response response;
 
-  public FeedMessageResponse getFeedMessageResponse() {
-    return feedMessageResponse;
-  }
+    @JsonProperty("response")
+    public Response getResponse() {
+        return response;
+    }
 
-  public void setFeedMessageResponse(FeedMessageResponse feedMessageResponse) {
-    this.feedMessageResponse = feedMessageResponse;
-  }
+    @JsonProperty("response")
+    public void setResponse(Response response) {
+        this.response = response;
+    }
+
 }
