@@ -19,6 +19,7 @@ public class SharedPage {
     @Column(length = 35)
     private String sharedPageFeedId;
 
+    @SuppressWarnings("unused")
     protected SharedPage() {
     }
 

@@ -1,6 +1,5 @@
 package com.codeshaw.tracker.dto.spot;
 
-import com.codeshaw.tracker.dto.spot.FeedMessageResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
