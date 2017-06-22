@@ -1,16 +1,19 @@
 package com.codeshaw.tracker.domain;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 public class CheckIn {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private UUID id;
+  @Column
+  @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+  private LocalDateTime checkInTime;
 
   @Version
   private int version;
@@ -19,10 +22,8 @@ public class CheckIn {
   @JoinColumn(name = "SHARED_PAGE_ID")
   private SharedPage sharedPage;
 
-  private LocalDateTime checkInTime;
 
   private double latitude;
-
   private double longitude;
 
   private String messageText;
@@ -30,8 +31,7 @@ public class CheckIn {
   /**
    * Protected-access no-arg constructor.
    */
-  @SuppressWarnings("unused")
-  protected CheckIn() {
+  public CheckIn() {
   }
 
   /**
@@ -50,14 +50,6 @@ public class CheckIn {
     this.latitude = latitude;
     this.longitude = longitude;
     this.messageText = messageText;
-  }
-
-  public UUID getId() {
-    return id;
-  }
-
-  public void setId(UUID id) {
-    this.id = id;
   }
 
   public int getVersion() {
@@ -106,5 +98,33 @@ public class CheckIn {
 
   public void setMessageText(String messageText) {
     this.messageText = messageText;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (o == null || getClass() != o.getClass()) return false;
+
+    CheckIn checkIn = (CheckIn) o;
+
+    return new EqualsBuilder()
+        .append(latitude, checkIn.latitude)
+        .append(longitude, checkIn.longitude)
+        .append(sharedPage, checkIn.sharedPage)
+        .append(checkInTime, checkIn.checkInTime)
+        .append(messageText, checkIn.messageText)
+        .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+        .append(sharedPage)
+        .append(checkInTime)
+        .append(latitude)
+        .append(longitude)
+        .append(messageText)
+        .toHashCode();
   }
 }

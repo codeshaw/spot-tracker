@@ -1,47 +1,36 @@
 package com.codeshaw.tracker.domain;
 
-import javax.persistence.*;
-import java.util.UUID;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class SharedPage {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
-
-    @Version
-    private int version;
+    @Column(length = 100)
+    private String id;
 
     @Column(length = 100)
     private String sharedPageName;
 
-    @Column(length = 100)
-    private String sharedPageFeedId;
-
-    @SuppressWarnings("unused")
     protected SharedPage() {
     }
 
-    public SharedPage(String sharedPageName, String sharedPageFeedId) {
+    public SharedPage(String id, String sharedPageName ) {
         this.sharedPageName = sharedPageName;
-        this.sharedPageFeedId = sharedPageFeedId;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
         this.id = id;
     }
 
-    public int getVersion() {
-        return version;
+    public String getId() {
+        return id;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getSharedPageName() {
@@ -52,11 +41,25 @@ public class SharedPage {
         this.sharedPageName = sharedPageName;
     }
 
-    public String getSharedPageFeedId() {
-        return sharedPageFeedId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SharedPage that = (SharedPage) o;
+
+        return new EqualsBuilder()
+            .append(id, that.id)
+            .append(sharedPageName, that.sharedPageName)
+            .isEquals();
     }
 
-    public void setSharedPageFeedId(String sharedPageFeedId) {
-        this.sharedPageFeedId = sharedPageFeedId;
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+            .append(id)
+            .append(sharedPageName)
+            .toHashCode();
     }
 }

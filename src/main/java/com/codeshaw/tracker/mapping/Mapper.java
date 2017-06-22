@@ -1,16 +1,13 @@
 package com.codeshaw.tracker.mapping;
 
-import com.codeshaw.tracker.domain.CheckIn;
-import com.codeshaw.tracker.dto.spot.Response;
-import ma.glasnost.orika.MapperFactory;
-import ma.glasnost.orika.impl.ConfigurableMapper;
-import org.springframework.context.annotation.Configuration;
+import java.util.List;
 
-@Configuration
-public class Mapper extends ConfigurableMapper {
+/**
+ *
+ * @param <T> DTO class
+ * @param <U> Entity class
+ */
+public interface Mapper<T, U>  {
 
-  @Override
-  protected void configure(MapperFactory factory) {
-    factory.classMap(CheckIn.class, Response.class);
-  }
+  List<U> getMappedList(T dto);
 }

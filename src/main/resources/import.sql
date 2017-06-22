@@ -1,1 +1,1 @@
-INSERT INTO SHARED_PAGE (id, version, shared_page_name, shared_page_feed_id) VALUES('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 0, 'Test Page', '0QMDKF0I6jklMx12jKlxxsLpTLdAv8PgH');
+INSERT INTO SHARED_PAGE (id, shared_page_name) VALUES('0QMDKF0I6jklMx12jKlxxsLpTLdAv8PgH', 'Test Page' );

@@ -1,6 +1,8 @@
 package com.codeshaw.tracker.service.impl;
 
 import com.codeshaw.tracker.dto.spot.SpotResponse;
+import com.codeshaw.tracker.mapping.impl.SpotResponseToCheckInMapper;
+import com.codeshaw.tracker.repository.CheckInRepository;
 import com.codeshaw.tracker.repository.SharedPageRepository;
 import com.codeshaw.tracker.service.SpotScraperService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,11 +26,24 @@ public class SpotScraperServiceImpl implements SpotScraperService {
 
     private static final Logger LOG = LoggerFactory.getLogger(SpotScraperServiceImpl.class);
 
+    /**
+     *
+     */
     private SharedPageRepository sharedPageRepository;
 
+    private CheckInRepository checkInRepository;
+
+    /**
+     *
+     */
+    private final SpotResponseToCheckInMapper mapper;
+
     @Autowired
-    protected SpotScraperServiceImpl(SharedPageRepository sharedPageRepository) {
+    protected SpotScraperServiceImpl(SharedPageRepository sharedPageRepository, CheckInRepository checkInRepository,
+                                     SpotResponseToCheckInMapper mapper) {
         this.sharedPageRepository = sharedPageRepository;
+        this.checkInRepository = checkInRepository;
+        this.mapper = mapper;
     }
 
     @Scheduled(cron = "*/10 * * * * *")
@@ -36,11 +51,14 @@ public class SpotScraperServiceImpl implements SpotScraperService {
         LOG.info("Scraping SPOT service: {}", LocalDateTime.now().toString());
 
         List<SpotResponse> spotResponses = sharedPageRepository.findAll().stream()
-                .map(sharedPage -> fetchFeedWithId(sharedPage.getSharedPageFeedId()))
+                .map(sharedPage -> fetchFeedWithId(sharedPage.getId()))
                 .collect(Collectors.toList());
 
         spotResponses.forEach(currentResponse -> LOG.debug("Found: {}", currentResponse));
-    }
+
+        spotResponses.stream()
+            .map(mapper::getMappedList)
+            .forEach(current -> checkInRepository.save(current));}
 
     /**
      * Performs the REST request that gets the SPOT response and turns it into s {@link SpotResponse} instance
@@ -64,6 +82,4 @@ public class SpotScraperServiceImpl implements SpotScraperService {
             throw new RuntimeException(e);
         }
     }
-
-
 }

@@ -44,7 +44,7 @@ public class SharedPageRepositoryTest {
         assertThat(sharedPageNames, contains("Test Feed 1", "Test Feed 2"));
 
         List<String> sharedPageFeedIds = allSharedPages.stream()
-                .map(SharedPage::getSharedPageFeedId)
+                .map(SharedPage::getId)
                 .collect(Collectors.toList());
         assertThat(sharedPageFeedIds, contains("TEST_PAGE_FEED_ID_1", "TEST_PAGE_FEED_ID_2"));
     }
