@@ -2,6 +2,7 @@ package com.codeshaw.tracker.repository;
 
 import com.codeshaw.tracker.domain.SharedPage;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

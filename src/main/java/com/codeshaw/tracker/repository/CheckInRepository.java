@@ -14,4 +14,6 @@ import java.util.List;
 public interface CheckInRepository extends CrudRepository<CheckIn, LocalDateTime> {
 
     List<CheckIn> findAll();
+
+    List<CheckIn> findBySharedPageIdOrderByCheckInTimeAsc(String sharedPageId);
 }

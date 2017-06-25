@@ -12,7 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -46,7 +48,15 @@ public class SpotScraperServiceImpl implements SpotScraperService {
         this.mapper = mapper;
     }
 
-    @Scheduled(cron = "*/10 * * * * *")
+    /**
+     * Initialisation method.
+     */
+    @PostConstruct
+    public void init() {
+        scrapeSpotService();
+    }
+
+    @Scheduled(cron = "0 0 */12 * * *")
     public void scrapeSpotService() {
         LOG.info("Scraping SPOT service: {}", LocalDateTime.now().toString());
 
@@ -58,28 +68,29 @@ public class SpotScraperServiceImpl implements SpotScraperService {
 
         spotResponses.stream()
             .map(mapper::getMappedList)
-            .forEach(current -> checkInRepository.save(current));}
+            .forEach(current -> checkInRepository.save(current));
+    }
 
     /**
      * Performs the REST request that gets the SPOT response and turns it into s {@link SpotResponse} instance
      * @param sharedPageFeedId The shared feed ID
      * @return The SPOT messages as DTO
      */
-//    private SpotResponse fetchFeedWithId(String sharedPageFeedId) {
-//        return new RestTemplate().getForObject(String.format(API_URL, sharedPageFeedId), SpotResponse.class);
-//    }
-
-    /**
-     * Crap test method for the file system.
-     * @param sharedPageFeedId
-     * @return
-     */
-    @Autowired private ObjectMapper objectMapper;
     private SpotResponse fetchFeedWithId(String sharedPageFeedId) {
-        try {
-            return objectMapper.readValue(new URL("classpath:response.json"), SpotResponse.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return new RestTemplate().getForObject(String.format(API_URL, sharedPageFeedId), SpotResponse.class);
     }
+
+//    /**
+//     * Crap test method for the file system.
+//     * @param sharedPageFeedId
+//     * @return
+//     */
+//    @Autowired private ObjectMapper objectMapper;
+//    private SpotResponse fetchFeedWithId(String sharedPageFeedId) {
+//        try {
+//            return objectMapper.readValue(new URL("classpath:response.json"), SpotResponse.class);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 }

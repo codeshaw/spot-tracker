@@ -8,6 +8,7 @@ import org.joda.time.LocalDateTime;
 import javax.persistence.*;
 
 @Entity
+@Table(indexes = @Index(name = "IDX_SHARED_PAGE_ID",  columnList="SHARED_PAGE_ID"))
 public class CheckIn {
 
   @Id
@@ -19,9 +20,8 @@ public class CheckIn {
   private int version;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "SHARED_PAGE_ID")
+  @JoinColumn(name = "SHARED_PAGE_ID", foreignKey = @ForeignKey(name = "FK_SHARED_PAGE_CHECK_IN"))
   private SharedPage sharedPage;
-
 
   private double latitude;
   private double longitude;
