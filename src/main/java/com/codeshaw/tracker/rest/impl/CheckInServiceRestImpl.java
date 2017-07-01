@@ -7,10 +7,7 @@ import com.codeshaw.tracker.rest.CheckInServiceRest;
 import com.codeshaw.tracker.service.CheckInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * REST-ful implementation of {@link CheckInServiceRest}
@@ -37,6 +34,7 @@ public class CheckInServiceRestImpl implements CheckInServiceRest {
     }
 
     @Override
+    @CrossOrigin(maxAge = 3600)
     @RequestMapping(value = "/{sharedPage}", method = RequestMethod.GET)
     public CoordinateResponse getAllCheckInsForSharedPage(@PathVariable("sharedPage") String sharedPageId) {
         return mapper.getMappedList(checkInService.getAllCheckInsForSharedPage(sharedPageId));
