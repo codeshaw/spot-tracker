@@ -19,6 +19,9 @@ public class CheckIn {
   @Version
   private int version;
 
+  @Column(updatable = false)
+  private boolean visible = true;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "SHARED_PAGE_ID", foreignKey = @ForeignKey(name = "FK_SHARED_PAGE_CHECK_IN"))
   private SharedPage sharedPage;
@@ -98,6 +101,14 @@ public class CheckIn {
 
   public void setMessageText(String messageText) {
     this.messageText = messageText;
+  }
+
+  public boolean isVisible() {
+    return visible;
+  }
+
+  public void setVisible(boolean visible) {
+    this.visible = visible;
   }
 
   @Override

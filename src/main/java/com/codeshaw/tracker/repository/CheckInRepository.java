@@ -15,5 +15,5 @@ public interface CheckInRepository extends CrudRepository<CheckIn, LocalDateTime
 
     List<CheckIn> findAll();
 
-    List<CheckIn> findBySharedPageIdOrderByCheckInTimeAsc(String sharedPageId);
+    List<CheckIn> findBySharedPageIdAndVisibleTrueOrderByCheckInTimeAsc(String sharedPageId);
 }

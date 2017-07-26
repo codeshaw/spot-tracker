@@ -27,6 +27,6 @@ public class CheckInServiceImpl implements CheckInService {
         if (!sharedPageRepository.exists(sharedPageId)) {
             throw new NotFoundException("Not Found");
         }
-        return checkInRepository.findBySharedPageIdOrderByCheckInTimeAsc(sharedPageId);
+        return checkInRepository.findBySharedPageIdAndVisibleTrueOrderByCheckInTimeAsc(sharedPageId);
     }
 }

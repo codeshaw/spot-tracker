@@ -80,15 +80,7 @@ public class SpotScraperServiceImpl implements SpotScraperService {
      * @return The SPOT messages as DTO
      */
     private SpotResponse fetchFeedWithId(String sharedPageFeedId) {
-        // Spot's API is crap. If there's only one element it returns one element, not an array
-        // And I don't have the time to work out how to mitigate it. Busy busy busy.
-        try {
-            return new RestTemplate().getForObject(String.format(API_URL, sharedPageFeedId), SpotResponse.class);
-        } catch (HttpMessageNotReadableException e) {
-            SpotResponse spotResponse = new SpotResponse();
-            spotResponse.setResponse(new Response());
-            return spotResponse;
-        }
+        return new RestTemplate().getForObject(String.format(API_URL, sharedPageFeedId), SpotResponse.class);
     }
 
 }

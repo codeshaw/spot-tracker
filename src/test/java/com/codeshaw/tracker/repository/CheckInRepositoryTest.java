@@ -2,17 +2,13 @@ package com.codeshaw.tracker.repository;
 
 import com.codeshaw.tracker.domain.CheckIn;
 import com.codeshaw.tracker.domain.SharedPage;
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jdbc.EmbeddedDatabaseConnection;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -44,7 +40,6 @@ public class CheckInRepositoryTest {
     public void setup() {
         sharedPage = new SharedPage("Fuckyou", "123");
         entityManager.persist(sharedPage);
-
     }
 
     @Test

@@ -38,6 +38,7 @@ public class SpotResponseToCheckInMapper implements OneToManyMapper<SpotResponse
           checkIn.setCheckInTime(new LocalDateTime(currentMessage.getUnixTime() * 1000, DateTimeZone.UTC));
           checkIn.setLatitude(currentMessage.getLatitude());
           checkIn.setLongitude(currentMessage.getLongitude());
+          checkIn.setMessageText(currentMessage.getMessageContent());
           return checkIn;
         }).collect(Collectors.toList());
   }
