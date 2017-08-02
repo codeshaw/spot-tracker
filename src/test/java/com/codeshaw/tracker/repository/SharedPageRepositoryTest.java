@@ -33,21 +33,23 @@ public class SharedPageRepositoryTest {
 
     @Test
     public void testFindAll() {
-        entityManager.persist(new SharedPage("Test Feed 1", "TEST_PAGE_FEED_ID_1"));
-        entityManager.persist(new SharedPage("Test Feed 2", "TEST_PAGE_FEED_ID_2"));
+        entityManager.persist(new SharedPage("TEST_PAGE_FEED_ID_1", "Test Feed 1"));
+        entityManager.persist(new SharedPage("TEST_PAGE_FEED_ID_2", "Test Feed 2"));
 
         List<SharedPage> allSharedPages = repository.findAll();
-        assertThat(allSharedPages.size(), is(2));
+        assertThat(allSharedPages.size(), is(3));
 
         List<String> sharedPageNames = allSharedPages.stream()
                 .map(SharedPage::getSharedPageName)
                 .collect(Collectors.toList());
-        assertThat(sharedPageNames, contains("Test Feed 1", "Test Feed 2"));
+        assertThat(sharedPageNames, contains(
+                "Test Page", "Test Feed 1", "Test Feed 2"));
 
         List<String> sharedPageFeedIds = allSharedPages.stream()
                 .map(SharedPage::getId)
                 .collect(Collectors.toList());
-        assertThat(sharedPageFeedIds, contains("TEST_PAGE_FEED_ID_1", "TEST_PAGE_FEED_ID_2"));
+        assertThat(sharedPageFeedIds, contains(
+                "0QMDKF0I6jklMx12jKlxxsLpTLdAv8PgH", "TEST_PAGE_FEED_ID_1", "TEST_PAGE_FEED_ID_2"));
     }
 
 }
