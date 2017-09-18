@@ -14,4 +14,9 @@ public interface CheckInServiceRest {
      */
     CoordinateResponse getAllCheckInsForSharedPage(String sharedPageId);
 
+    /**
+     * Forces a refresh of the SPOT backend.
+     */
+    void forceRefresh();
+
 }
