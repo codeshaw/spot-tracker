@@ -2,7 +2,6 @@ package com.codeshaw.tracker.repository;
 
 import com.codeshaw.tracker.domain.CheckIn;
 import com.codeshaw.tracker.domain.SharedPage;
-import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,8 +45,8 @@ public class CheckInRepositoryTest {
     @Test
     @Transactional
     public void testFindAll() {
-        CheckIn aCheckIn = new CheckIn(sharedPage, LocalDateTime.now(), 12.34D, 45.67D, "Crappy test message");
-        CheckIn bCheckIn = new CheckIn(sharedPage, LocalDateTime.now(), 23.45D, 67.89D, "Crappy test message 2");
+        CheckIn aCheckIn = new CheckIn(LocalDateTime.now(), 12.34D, 45.67D, "Crappy test message");
+        CheckIn bCheckIn = new CheckIn(LocalDateTime.now(), 23.45D, 67.89D, "Crappy test message 2");
 
         entityManager.persistFlushFind(aCheckIn);
         entityManager.persistFlushFind(bCheckIn);

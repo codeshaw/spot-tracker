@@ -7,8 +7,6 @@ import com.codeshaw.tracker.repository.CheckInRepository;
 import com.codeshaw.tracker.repository.SharedPageRepository;
 import com.codeshaw.tracker.service.SpotScraperService;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.joda.time.LocalDateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,9 +68,9 @@ public class SpotScraperServiceImpl implements SpotScraperService {
 
         spotResponses.forEach(currentResponse -> LOG.debug("Found: {}", currentResponse));
 
-        spotResponses.stream()
-            .map(mapper::getMappedList)
-            .forEach(current -> checkInRepository.save(current));
+//        spotResponses.stream()
+//            .map(mapper::getMappedList)
+//            .forEach(current -> checkInRepository.save(current));
     }
 
     /**

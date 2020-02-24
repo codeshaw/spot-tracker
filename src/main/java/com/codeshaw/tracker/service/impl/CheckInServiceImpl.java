@@ -8,6 +8,7 @@ import com.codeshaw.tracker.service.CheckInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -24,9 +25,10 @@ public class CheckInServiceImpl implements CheckInService {
 
     @Override
     public List<CheckIn> getAllCheckInsForSharedPage(String sharedPageId) {
-        if (!sharedPageRepository.exists(sharedPageId)) {
-            throw new NotFoundException("Not Found");
-        }
-        return checkInRepository.findBySharedPageIdAndVisibleTrueOrderByCheckInTimeAsc(sharedPageId);
+//        if (!sharedPageRepository.exists(sharedPageId)) {
+//            throw new NotFoundException("Not Found");
+//        }
+//        return checkInRepository.findBySharedPageIdAndVisibleTrueOrderByCheckInTimeAsc(sharedPageId);
+        return Collections.emptyList();
     }
 }

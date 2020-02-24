@@ -2,19 +2,17 @@ package com.codeshaw.tracker.domain;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.hibernate.annotations.Type;
-import org.joda.time.LocalDateTime;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
-@Table(indexes = @Index(name = "IDX_SHARED_PAGE_ID",  columnList="SHARED_PAGE_ID"))
 public class CheckIn {
 
   @Id
-  @Column
-  @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-  private LocalDateTime checkInTime;
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private UUID id;
 
   @Version
   private int version;
@@ -23,10 +21,13 @@ public class CheckIn {
   private boolean visible = true;
 
   @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "SHARED_PAGE_ID", foreignKey = @ForeignKey(name = "FK_SHARED_PAGE_CHECK_IN"))
-  private SharedPage sharedPage;
+  private TripSegment tripSegment;
+
+  @Column
+  private LocalDateTime checkInTime;
 
   private double latitude;
+
   private double longitude;
 
   private String messageText;
@@ -40,15 +41,12 @@ public class CheckIn {
   /**
    * Public constructor.
    *
-   * @param sharedPage The shared page associated with the spot device
    * @param checkInTime The time of the check-in event
    * @param latitude Latitude of the check-in event
    * @param longitude Longitude of the check-in event
    * @param messageText The message text associated with the check-in event.
    */
-  public CheckIn(SharedPage sharedPage, LocalDateTime checkInTime,
-                 double latitude, double longitude, String messageText) {
-    this.sharedPage = sharedPage;
+  public CheckIn(LocalDateTime checkInTime, double latitude, double longitude, String messageText) {
     this.checkInTime = checkInTime;
     this.latitude = latitude;
     this.longitude = longitude;
@@ -63,16 +61,16 @@ public class CheckIn {
     this.version = version;
   }
 
-  public SharedPage getSharedPage() {
-    return sharedPage;
-  }
-
-  public void setSharedPage(SharedPage sharedPage) {
-    this.sharedPage = sharedPage;
-  }
-
   public LocalDateTime getCheckInTime() {
     return checkInTime;
+  }
+
+  public void setTripSegment(TripSegment tripSegment) {
+    this.tripSegment = tripSegment;
+  }
+
+  public TripSegment getTripSegment() {
+    return this.tripSegment;
   }
 
   public void setCheckInTime(LocalDateTime checkInTime) {
@@ -122,7 +120,6 @@ public class CheckIn {
     return new EqualsBuilder()
         .append(latitude, checkIn.latitude)
         .append(longitude, checkIn.longitude)
-        .append(sharedPage, checkIn.sharedPage)
         .append(checkInTime, checkIn.checkInTime)
         .append(messageText, checkIn.messageText)
         .isEquals();
@@ -131,7 +128,6 @@ public class CheckIn {
   @Override
   public int hashCode() {
     return new HashCodeBuilder(17, 37)
-        .append(sharedPage)
         .append(checkInTime)
         .append(latitude)
         .append(longitude)
