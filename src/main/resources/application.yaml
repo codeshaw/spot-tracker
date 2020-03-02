@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    password: spot
+    url: jdbc:mysql://localhost:3306/spot_tracker
+    username: spot
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+logging:
+  level:
+    root: WARN
+    com:
+      codeshaw:
+        tracker: DEBUG
+    org:
+      hibernate: WARN
+      springframework: WARN

@@ -20,9 +20,6 @@ public class CheckIn {
   @Column(updatable = false)
   private boolean visible = true;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  private TripSegment tripSegment;
-
   @Column
   private LocalDateTime checkInTime;
 
@@ -63,14 +60,6 @@ public class CheckIn {
 
   public LocalDateTime getCheckInTime() {
     return checkInTime;
-  }
-
-  public void setTripSegment(TripSegment tripSegment) {
-    this.tripSegment = tripSegment;
-  }
-
-  public TripSegment getTripSegment() {
-    return this.tripSegment;
   }
 
   public void setCheckInTime(LocalDateTime checkInTime) {
