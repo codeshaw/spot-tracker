@@ -1,8 +1,8 @@
 package com.codeshaw.tracker.mapping.impl;
 
 import com.codeshaw.tracker.domain.CheckIn;
-import com.codeshaw.tracker.dto.CoordinateResponse;
-import com.codeshaw.tracker.dto.Coordinate;
+import com.codeshaw.tracker.dto.CoordinateResponseDto;
+import com.codeshaw.tracker.dto.CoordinateDto;
 import com.codeshaw.tracker.mapping.ManyToOneMapper;
 import org.springframework.stereotype.Component;
 
@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 
 /**
  * Implementation of {@link ManyToOneMapper} that turns a list of {@link CheckIn} entities to a single
- * {@link CoordinateResponse}.
+ * {@link CoordinateResponseDto}.
  */
 @Component
-public class CheckInListToCheckInResponseMapper implements ManyToOneMapper<CoordinateResponse, CheckIn> {
+public class CheckInListToCheckInResponseMapper implements ManyToOneMapper<CoordinateResponseDto, CheckIn> {
 
     @Override
-    public CoordinateResponse getMappedList(List<CheckIn> entities) {
-        CoordinateResponse coordinateResponse = new CoordinateResponse();
+    public CoordinateResponseDto getMappedList(List<CheckIn> entities) {
+        CoordinateResponseDto coordinateResponse = new CoordinateResponseDto();
 
         coordinateResponse.setCoordinates(entities.stream()
                 .map(this::map).collect(Collectors.toList()));
@@ -27,12 +27,12 @@ public class CheckInListToCheckInResponseMapper implements ManyToOneMapper<Coord
     }
 
     /**^
-     * Maps a {@link CheckIn} to a {@link Coordinate}
+     * Maps a {@link CheckIn} to a {@link CoordinateDto}
      *
      * @param checkIn The {@link CheckIn} to map.
-     * @return The mapped {@link Coordinate}
+     * @return The mapped {@link CoordinateDto}
      */
-    private Coordinate map(CheckIn checkIn) {
-        return new Coordinate(checkIn.getLatitude(), checkIn.getLongitude());
+    private CoordinateDto map(CheckIn checkIn) {
+        return new CoordinateDto(checkIn.getLatitude(), checkIn.getLongitude());
     }
 }

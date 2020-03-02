@@ -1,7 +1,7 @@
 package com.codeshaw.tracker.rest.impl;
 
 import com.codeshaw.tracker.domain.CheckIn;
-import com.codeshaw.tracker.dto.CoordinateResponse;
+import com.codeshaw.tracker.dto.CoordinateResponseDto;
 import com.codeshaw.tracker.mapping.impl.CheckInListToCheckInResponseMapper;
 import com.codeshaw.tracker.rest.CheckInServiceRest;
 import com.codeshaw.tracker.service.CheckInService;
@@ -29,7 +29,7 @@ public class CheckInServiceRestImpl implements CheckInServiceRest {
     private final SpotScraperService spotScraperService;
 
     /**
-     * Mapper from the {@link CheckIn} domain to the {@link CoordinateResponse} DTO.
+     * Mapper from the {@link CheckIn} domain to the {@link CoordinateResponseDto} DTO.
      */
     private CheckInListToCheckInResponseMapper mapper;
 
@@ -44,7 +44,7 @@ public class CheckInServiceRestImpl implements CheckInServiceRest {
     @Override
     @CrossOrigin(maxAge = 3600)
     @RequestMapping(value = "/{sharedPage}", method = RequestMethod.GET)
-    public CoordinateResponse getAllCheckInsForSharedPage(@PathVariable("sharedPage") String sharedPageId) {
+    public CoordinateResponseDto getAllCheckInsForSharedPage(@PathVariable("sharedPage") String sharedPageId) {
         return mapper.getMappedList(checkInService.getAllCheckInsForSharedPage(sharedPageId));
     }
 

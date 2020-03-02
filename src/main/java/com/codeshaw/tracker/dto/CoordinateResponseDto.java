@@ -8,16 +8,16 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CoordinateResponse {
+public class CoordinateResponseDto {
 
     @JsonProperty("coordinates")
-    private List<Coordinate> coordinates;
+    private List<CoordinateDto> coordinates;
 
-    public List<Coordinate> getCoordinates() {
+    public List<CoordinateDto> getCoordinates() {
         return coordinates;
     }
 
-    public void setCoordinates(List<Coordinate> coordinates) {
+    public void setCoordinates(List<CoordinateDto> coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -27,7 +27,7 @@ public class CoordinateResponse {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        CoordinateResponse that = (CoordinateResponse) o;
+        CoordinateResponseDto that = (CoordinateResponseDto) o;
 
         return new EqualsBuilder()
                 .append(coordinates, that.coordinates)

@@ -1,6 +1,6 @@
 package com.codeshaw.tracker.rest;
 
-import com.codeshaw.tracker.dto.CoordinateResponse;
+import com.codeshaw.tracker.dto.CoordinateResponseDto;
 
 /**
  * Contract definitions for the co-ordinates service.
@@ -8,11 +8,11 @@ import com.codeshaw.tracker.dto.CoordinateResponse;
 public interface CheckInServiceRest {
 
     /**
-     * Gets a {@link CoordinateResponse}
+     * Gets a {@link CoordinateResponseDto}
      * @param sharedPageId
      * @return
      */
-    CoordinateResponse getAllCheckInsForSharedPage(String sharedPageId);
+    CoordinateResponseDto getAllCheckInsForSharedPage(String sharedPageId);
 
     /**
      * Forces a refresh of the SPOT backend.

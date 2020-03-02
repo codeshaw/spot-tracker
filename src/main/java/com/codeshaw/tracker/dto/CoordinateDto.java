@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Coordinate {
+public class CoordinateDto {
 
     @JsonProperty("lat")
     private double lat;
@@ -14,11 +14,11 @@ public class Coordinate {
     @JsonProperty("lng")
     private double lng;
 
-    Coordinate() {
+    CoordinateDto() {
         // No-op constructor for jaxb.
     }
 
-    public Coordinate(double lat, double lng) {
+    public CoordinateDto(double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
     }
@@ -45,7 +45,7 @@ public class Coordinate {
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Coordinate that = (Coordinate) o;
+        CoordinateDto that = (CoordinateDto) o;
 
         return new EqualsBuilder()
                 .append(lat, that.lat)

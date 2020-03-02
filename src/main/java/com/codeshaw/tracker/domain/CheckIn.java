@@ -32,7 +32,7 @@ public class CheckIn {
   /**
    * Protected-access no-arg constructor.
    */
-  public CheckIn() {
+  protected CheckIn() {
   }
 
   /**
