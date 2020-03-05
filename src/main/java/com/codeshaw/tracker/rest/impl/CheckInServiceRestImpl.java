@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Service
 @RestController
-@RequestMapping("/checkin")
+@RequestMapping("/api/checkin")
 public class CheckInServiceRestImpl implements CheckInServiceRest {
 
     /**
@@ -43,7 +43,7 @@ public class CheckInServiceRestImpl implements CheckInServiceRest {
 
     @Override
     @CrossOrigin(maxAge = 3600)
-    @RequestMapping(value = "/{sharedPage}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{sharedPage}", method = RequestMethod.GET, consumes = "application/json")
     public CoordinateResponseDto getAllCheckInsForSharedPage(@PathVariable("sharedPage") String sharedPageId) {
         return mapper.getMappedList(checkInService.getAllCheckInsForSharedPage(sharedPageId));
     }

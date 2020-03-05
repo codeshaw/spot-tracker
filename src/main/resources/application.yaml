@@ -1,11 +1,16 @@
+codeshaw:
+  spot-tracker:
+    jwtSecret: very_secret_secret
+    jwtExpirationMs: 86400000
 server:
   port: 8080
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    password: spot
     url: jdbc:mysql://localhost:3306/spot_tracker
     username: spot
+    password: spot
+    initialization-mode: always
   jpa:
     database-platform: org.hibernate.dialect.MySQL5Dialect
     generate-ddl: true
@@ -23,4 +28,4 @@ logging:
         tracker: DEBUG
     org:
       hibernate: WARN
-      springframework: WARN
+      springframework: DEBUG

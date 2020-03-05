@@ -3,6 +3,7 @@ package com.codeshaw.tracker.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,22 +11,38 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  private final UserPrincipalService userPrincipalService;
+  private final JwtUtils jwtUtils;
 
-  public SecurityConfiguration(UserPrincipalService userPrincipalService) {
-    this.userPrincipalService = userPrincipalService;
+  private final UserDetailsServiceImpl userDetailsService;
+
+  public SecurityConfiguration(JwtUtils jwtUtils, UserDetailsServiceImpl userDetailsServiceImpl) {
+    this.jwtUtils = jwtUtils;
+    this.userDetailsService = userDetailsServiceImpl;
   }
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(userPrincipalService).passwordEncoder(passwordEncoder());
+  @Bean
+  public AuthTokenFilter authenticationJwtTokenFilter() {
+    return new AuthTokenFilter(jwtUtils, userDetailsService);
+  }
+
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+  }
+
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 
   @Bean
@@ -40,14 +57,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .csrf().disable()
         .authorizeRequests()
-        .antMatchers("/api/login").permitAll()
-        .antMatchers("/register").permitAll()
-        .antMatchers("/api/register").permitAll()
-        .antMatchers("/api/glee/**").hasAnyAuthority("ADMIN", "USER")
-        .antMatchers("/api/users/**").hasAuthority("ADMIN")
-        .antMatchers("/api/**").authenticated()
+        .antMatchers("/api/user/**").permitAll()
+        .antMatchers("/api/user/login").permitAll()
         .anyRequest().authenticated()
         .and().exceptionHandling();
+
+    http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
 }
