@@ -2,8 +2,8 @@ package com.codeshaw.tracker.serialiser;
 
 import com.codeshaw.tracker.dto.spot.SpotResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
@@ -11,7 +11,6 @@ import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-
 
 /**
  * Unit test class to test the functioning of {@link MessageDeserializer}, which is invoked transitively
@@ -21,7 +20,7 @@ public class MessageDeserializerTest {
 
   private ObjectMapper objectMapper;
 
-  @Before
+  @BeforeEach
   public void setup() {
     objectMapper = new ObjectMapper();
   }
@@ -35,8 +34,8 @@ public class MessageDeserializerTest {
 
   @Test
   public void testMultiObjectMapping() throws IOException{
-    File multiReponseFile = new ClassPathResource("multi-response.json").getFile();
-    SpotResponse spotResponse = objectMapper.readValue(multiReponseFile, SpotResponse.class);
+    File multiResponseFile = new ClassPathResource("multi-response.json").getFile();
+    SpotResponse spotResponse = objectMapper.readValue(multiResponseFile, SpotResponse.class);
     assertThat(spotResponse.getResponse().getFeedMessageResponse().getMessages().getMessage().size(), is(2));
   }
 

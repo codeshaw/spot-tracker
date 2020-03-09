@@ -62,11 +62,11 @@ public class SpotScraperServiceImpl implements SpotScraperService {
     public void scrapeSpotService() {
         LOG.info("Scraping SPOT service: {}", LocalDateTime.now().toString());
 
-        List<SpotResponse> spotResponses = sharedPageRepository.findAll().stream()
-                .map(sharedPage -> fetchFeedWithId(sharedPage.getId()))
-                .collect(Collectors.toList());
+//        List<SpotResponse> spotResponses = sharedPageRepository.findAll().stream()
+//                .map(sharedPage -> fetchFeedWithId(sharedPage.getId()))
+//                .collect(Collectors.toList());
 
-        spotResponses.forEach(currentResponse -> LOG.debug("Found: {}", currentResponse));
+//        spotResponses.forEach(currentResponse -> LOG.debug("Found: {}", currentResponse));
 
 //        spotResponses.stream()
 //            .map(mapper::getMappedList)

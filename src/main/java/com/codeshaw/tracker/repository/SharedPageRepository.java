@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 public interface SharedPageRepository extends CrudRepository<SharedPage, String> {
 
-    List<SharedPage> findAll();
 }

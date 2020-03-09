@@ -4,17 +4,15 @@ import com.codeshaw.tracker.mapping.impl.CheckInListToCheckInResponseMapper;
 import com.codeshaw.tracker.rest.CheckInServiceRest;
 import com.codeshaw.tracker.service.CheckInService;
 import com.codeshaw.tracker.service.SpotScraperService;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.Assert.*;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class CheckInServiceRestImplTest {
 
     /**
@@ -40,7 +38,7 @@ public class CheckInServiceRestImplTest {
      */
     private CheckInServiceRestImpl service;
 
-    @Before
+    @BeforeEach
     public void setup() {
         service = new CheckInServiceRestImpl(this.mockCheckInService, this.mockSpotScraperService, this.mapper);
     }
@@ -49,7 +47,7 @@ public class CheckInServiceRestImplTest {
      * Test for {@link CheckInServiceRest#getAllCheckInsForSharedPage(String)}
      */
     @Test
-    @Ignore
+    @Disabled("Not yet implemented")
     public void getAllCheckInsForSharedPage() {
         // Does nothing
     }
